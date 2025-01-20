@@ -1,0 +1,13 @@
+<div style="text-align:center">
+  <h1>Handball Games</h1>
+  <button (click)="fetchGames(211)">Heren1</button>
+  <button (click)="fetchGames(487)">Heren2</button>
+</div>
+
+<div *ngIf="loading">Loading...</div>
+
+<ul>
+  <li *ngFor="let game of games">
+    {{ game.date }} - {{ game.time }} | {{ game.home_team_name }} vs {{ game.away_team_name }}
+  </li>
+</ul>
