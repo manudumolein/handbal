@@ -12,16 +12,14 @@
       <span>Week from {{ currentWeekStart.toLocaleString().split(',')[0]}}</span>
       <button (click)="changeWeek(1)" class="btn btn-outline-secondary ms-3">Next Week</button>
     </div>
-
-    <div *ngIf="filteredGames.length > 0; else noMatches" >
-
+    <div *ngIf="filteredGames.length > 0; else noMatches">
       <li *ngFor="let game of filteredGames">
         <a [routerLink]="['/match', game.code]">
           <strong>{{ game.date }}</strong> at <strong>{{ game.time }}</strong>:
           {{ game.home_team_name }} vs {{ game.away_team_name }}
         </a>
       </li>
-    </div> 
+    </div>
     <ng-template #noMatches>
       <div *ngIf="loading" class="loading">Loading...</div>
       <div *ngIf="!loading">No matches this week</div>

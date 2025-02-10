@@ -29,11 +29,14 @@ export class MatchListingComponent {
 
   fetchGames(serie_id: number) {
     this.loading = true;
+    this.filteredGames = [];
+
     this.http.get(`http://localhost:3000/api/games?serie_id=${serie_id}`)
       .subscribe({
         next: (data: any) => {
           this.games = data;
           this.loading = false;
+          console.log(this.games)
           this.updateFilteredGames();
         },
         error: () => {
@@ -42,15 +45,12 @@ export class MatchListingComponent {
         }
       });
   }
- 
-  // Function to handle button click
+
   onButtonClick(serieId: number): void {
-    // Set the active button
     this.activeButton = this.serie_ids.findIndex(serie => serie.id === serieId);
     this.fetchGames(serieId);
   }
 
-  // Get the start of the week (Monday)
   getStartOfWeek(date: Date): Date {
     const day = date.getDay(); // Sunday = 0, Monday = 1, etc.
     const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Adjust to Monday as the start

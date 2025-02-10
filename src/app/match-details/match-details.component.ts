@@ -5,9 +5,10 @@ import { CommonModule } from '@angular/common';
 import { LineupComponent } from "../lineup/lineup.component";
 import { faFutbol, faMobileButton } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import{faHandPeace, faClock} from '@fortawesome/free-regular-svg-icons'
-
-
+import { faHandPeace, faClock } from '@fortawesome/free-regular-svg-icons'
+import { Event } from '../models/event';
+import { MatchData } from '../models/match-data';
+import { Player } from '../models/player';
 
 
 @Component({
@@ -17,9 +18,9 @@ import{faHandPeace, faClock} from '@fortawesome/free-regular-svg-icons'
   styleUrl: './match-details.component.css'
 })
 export class MatchDetailsComponent implements OnInit {
-  matchCode: string | null = null;
-  matchDetails: any = null;
-  filteredEvents: any[] = [];
+  matchCode: string | null = "";
+  matchDetails: MatchData = {} as MatchData;
+  filteredEvents: Event[] = [];
   date: string = "";
   eventTypes: string[] = ['goal', 'sevenMeterGoal', 'sevenMeterNoGoal', 'playerWarning', 'playerPenalty', 'disqualificationNoReport', 'disqualificationReport', 'interruptionByGuest', 'interruptionByHome']
 
@@ -35,6 +36,7 @@ export class MatchDetailsComponent implements OnInit {
     if (this.matchCode) {
       this.fetchMatchDetails(this.matchCode);
     }
+    //TODO else not valid match code
   }
 
   fetchMatchDetails(code: string): void {
@@ -59,7 +61,7 @@ export class MatchDetailsComponent implements OnInit {
     return ''
   }
 
-  filterEvents(events: any) {
+  filterEvents(events: Event[]) {
     events.sort(function (e1: any, e2: any) {
       return e1.second - e2.second
     })
@@ -69,52 +71,18 @@ export class MatchDetailsComponent implements OnInit {
     });
   }
 
-  getIconOld(event: any) {
-    switch (event.eventType) {
-      case 'goal':
-        if (event.teamHome) {
-          return '<i class="fa-regular fa-futbol"></i>&nbsp;&nbsp;&nbsp;<b>' + event.pointsHome + '</b>-' + event.pointsGuest
-        } else {
-          return '<i class="fa-regular fa-futbol"></i>&nbsp;&nbsp;&nbsp;' + event.pointsHome + '-<b>' + event.pointsGuest + '</b>'
-        }
-      case 'sevenMeterGoal':
-        if (event.teamHome) {
-          return '<i class="fa-regular fa-futbol"></i>&nbsp;&nbsp;&nbsp;<b>' + event.pointsHome + '</b>-' + event.pointsGuest + ' from 7-meter'
-        } else {
-          return '<i class="fa-regular fa-futbol"></i>&nbsp;&nbsp;&nbsp;' + event.pointsHome + '-<b>' + event.pointsGuest + '</b> from 7-meter'
-        }
-      case 'sevenMeterNoGoal':
-        return '<i class="fa-regular fa-futbol" style="color: red"></i>&nbsp;&nbsp;&nbsp;Missed from 7-meter'
-      case 'playerWarning':
-        return '<i class="fa-solid fa-mobile-button" style="color: yellow"></i>&nbsp;&nbsp;&nbsp;Warning'
-      case 'playerPenalty':
-        return '<i class="fa-regular fa-hand-peace" style="color: blue"></i>&nbsp;&nbsp;&nbsp;2-minutes Penalty'
-      case 'disqualificationNoReport':
-        return '<i class="fa-solid fa-mobile-button" style="color: red"></i>&nbsp;&nbsp;&nbsp;Disqualification'
-      case 'disqualificationReport':
-        return '<i class="fa-solid fa-mobile-button" style="color: blue"></i>&nbsp;&nbsp;&nbsp;Disqualification with report'
-      case 'interruptionByGuest':
-        return '<i class="fa-solid fa-clock" style="color: green"></i>&nbsp;&nbsp;&nbsp;Time-out ' + this.matchDetails.awayTeam
-      case 'interruptionByHome':
-        return '<i class="fa-solid fa-clock" style="color: green"></i>&nbsp;&nbsp;&nbsp;Time-out ' + this.matchDetails.homeTeam
-      default:
-        return ''
-    }
-  }
-
   getIcon(event: any): { icon: any; style?: any; description: string } {
     switch (event.eventType) {
       case 'goal':
         let goalDescription = ""
         if (event.teamHome) {
           goalDescription = `<b>${event.pointsHome}</b>-${event.pointsGuest}`
-          }  else
+        } else
           goalDescription = `${event.pointsHome}-<b>${event.pointsGuest}</b>`;
-
         return {
           icon: this.faFutbol,
           description: goalDescription
-        };    
+        };
 
       case 'sevenMeterGoal':
         const sevenMeterDescription = event.teamHome
@@ -180,7 +148,7 @@ export class MatchDetailsComponent implements OnInit {
   }
 
 
-  getPlayerNr(player: any) {
+  getPlayerNr(player: Player) {
     if (player) {
       return player.nr
     }
