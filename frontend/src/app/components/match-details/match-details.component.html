@@ -1,0 +1,121 @@
+<body class="d-flex h-100">
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <main class="px-3">
+      <div class="container">
+        <div id="matchdata">
+
+          <br>
+          <h1>Game Summary</h1>
+          <br>
+
+          <div>
+            <table class="table">
+              <tbody>
+                <tr style="height: 5rem;" >
+                  <th id="hometeam" class="h3">{{matchDetails.teamHome.name}}</th>
+                  <th id="score" class="h3">{{matchDetails.pointsHome}}-{{matchDetails.pointsGuest}}
+                    ({{matchDetails.pointsHomeHalftime}}-{{matchDetails.pointsGuestHalftime}})</th>
+                  <th id="awayteam" class="h3" colspan="100%">{{matchDetails.teamGuest.name}}</th>
+                </tr>
+                <tr>
+                  <th>Date:</th>
+                  <td id="date" colspan="100%">{{date}}</td>
+                </tr>
+                <tr>
+                  <th>Division:</th>
+                  <td id="league" colspan="100%">{{matchDetails.groupName}}</td>
+                </tr>
+                <tr><td style="height: 2rem;" colspan="100%"> </td></tr>
+                <tr>
+                  <th>Referee A:</th>
+                  <td id="refereeA">{{getPlayerName(matchDetails.federationOfficials.refereeA)}}</td>
+                  <th>Timekeeper:</th>
+                  <td id="timekeeper">{{getPlayerName(matchDetails.federationOfficials.timekeeper)}}</td>
+                </tr>
+                <tr>
+                  <th>Referee B:</th>
+                  <td id="refereeB">{{getPlayerName(matchDetails.federationOfficials.refereeB)}}</td>
+                  <th>Secretary:</th>
+                  <td id="secretary">{{getPlayerName(matchDetails.federationOfficials.secretary)}}</td>
+                </tr>
+                <tr>
+                  <th>Referee Observer:</th>
+                  <td id="refereeObserver">{{getPlayerName(matchDetails.federationOfficials.refereeObserver)}}</td>
+                  <th>Supervisor:</th>
+                  <td id="supervisor">{{getPlayerName(matchDetails.federationOfficials.supervisor)}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <app-lineup [players]="matchDetails.teamHome.players.concat(matchDetails.teamHome.goalkeepers)"
+                [events]="matchDetails.events"></app-lineup>
+            </div>
+            <div class="col">
+              <app-lineup [players]="matchDetails.teamGuest.players.concat(matchDetails.teamHome.goalkeepers)"
+                [events]="matchDetails.events"></app-lineup>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <app-lineup [players]="matchDetails.teamHome.officials" [events]="matchDetails.events"></app-lineup>
+            </div>
+            <div class="col">
+              <app-lineup [players]="matchDetails.teamGuest.officials" [events]="matchDetails.events"></app-lineup>
+
+            </div>
+          </div>
+          <br>
+          <h2 style="text-align: left;">Match Protocol</h2>
+          <br>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr *ngFor="let event of filteredEvents">
+                  <td>{{ secondsToDisplayTime(event.second) }}</td>
+
+                  <ng-container *ngIf="eventTypes.includes(event.eventType); else defaultEvent">
+                    <!-- If team is Home -->
+                    <ng-container *ngIf="event.teamHome; else guestEvent">
+                      <td style="text-align: right;">
+                        {{ getPlayerNr(event.player) }} &emsp; {{ getPlayerName(event.player)}}
+                      </td>
+                      <td style="text-align: center;">
+                        <fa-icon *ngIf="getIcon(event).icon" [icon]="getIcon(event).icon"
+                          [ngStyle]="getIcon(event).style || {}"></fa-icon>
+                        &nbsp;&nbsp;&nbsp;
+                        <span [innerHTML]="getIcon(event).description"></span>
+                      </td>
+                      <td></td>
+                    </ng-container>
+
+                    <!-- If team is Guest -->
+                    <ng-template #guestEvent>
+                      <td></td>
+                      <td style="text-align: center;">
+                        <fa-icon *ngIf="getIcon(event).icon" [icon]="getIcon(event).icon"
+                          [ngStyle]="getIcon(event).style || {}"></fa-icon>
+                        &nbsp;&nbsp;&nbsp;
+                        <span [innerHTML]="getIcon(event).description"></span>
+                      </td>
+                      <td style="text-align:left">{{ getPlayerNr(event.player)}} {{getPlayerName(event.player) }}</td>
+                    </ng-template>
+                  </ng-container>
+
+                  <!-- Default case for events not in eventTypes -->
+                  <ng-template #defaultEvent>
+                    <td></td>
+                    <td></td>
+                    <td>{{ event.eventType }}</td>
+                  </ng-template>
+
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
