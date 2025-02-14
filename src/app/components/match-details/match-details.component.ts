@@ -6,9 +6,9 @@ import { LineupComponent } from "../lineup/lineup.component";
 import { faFutbol, faMobileButton } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHandPeace, faClock } from '@fortawesome/free-regular-svg-icons'
-import { Event } from '../models/event';
-import { MatchData } from '../models/match-data';
-import { Player } from '../models/player';
+import { Event } from '../../models/event';
+import { MatchData } from '../../models/match-data';
+import { Player } from '../../models/player';
 
 
 @Component({
