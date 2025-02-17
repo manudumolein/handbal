@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { LineupComponent } from "../lineup/lineup.component";
 import { faFutbol, faMobileButton } from '@fortawesome/free-solid-svg-icons';
@@ -9,13 +8,13 @@ import { faHandPeace, faClock } from '@fortawesome/free-regular-svg-icons'
 import { Event } from '../../models/event';
 import { MatchData } from '../../models/match-data';
 import { Player } from '../../models/player';
-
+import { MatchService } from '../../services/match.service';
 
 @Component({
   selector: 'app-match-details',
   imports: [CommonModule, LineupComponent, FontAwesomeModule],
   templateUrl: './match-details.component.html',
-  styleUrl: './match-details.component.css'
+  styleUrls: ['./match-details.component.css']
 })
 export class MatchDetailsComponent implements OnInit {
   matchCode: string | null = "";
@@ -29,27 +28,25 @@ export class MatchDetailsComponent implements OnInit {
   faHandPeace = faHandPeace;
   faClock = faClock;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) { }
+  constructor(private route: ActivatedRoute, private matchService: MatchService) { }
 
   ngOnInit(): void {
     this.matchCode = this.route.snapshot.paramMap.get('code');
     if (this.matchCode) {
       this.fetchMatchDetails(this.matchCode);
     }
-    //TODO else not valid match code
+
   }
 
   fetchMatchDetails(code: string): void {
-    const url = `http://localhost:3000/api/game/${code}`;
-    this.http.get(url).subscribe({
+    this.matchService.fetchMatchDetails(code).subscribe({
       next: (data: any) => {
         this.matchDetails = data.data;
-        console.log(this.matchDetails);
         this.date = new Date(Date.parse(this.matchDetails.startTime)).toLocaleDateString() + ' ' + new Date(Date.parse(this.matchDetails.startTime)).toLocaleTimeString();
         this.filterEvents(this.matchDetails.events);
       },
-      error: () => {
-        alert('Error fetching match details');
+      error: (error) => {
+        alert('Error fetching match details' + error.message);
       },
     });
   }
@@ -147,7 +144,6 @@ export class MatchDetailsComponent implements OnInit {
     }
   }
 
-
   getPlayerNr(player: Player) {
     if (player) {
       return player.nr
@@ -158,6 +154,4 @@ export class MatchDetailsComponent implements OnInit {
   secondsToDisplayTime(seconds: any) {
     return Math.floor(seconds / 60) + ':' + (seconds % 60).toString().padStart(2, '0')
   }
-
 }
-

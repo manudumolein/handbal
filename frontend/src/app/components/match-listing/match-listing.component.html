@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Handball Games</h1>
     <button type="button" class="btn btn-outline-dark me-3" *ngFor="let serie of serie_ids; let i = index"
-      [class.active]="activeButton === i" (click)="onButtonClick(serie.id)">
+      [class.active]="activeButton === i" (click)="changeSerie(serie.id)">
       {{ serie.label }}
     </button>
     <hr>
@@ -27,6 +27,6 @@
 
 
 
-    <p *ngIf="!loading && games.length === 0">No games available.</p>
+    <p *ngIf="!loading && filteredGames.length === 0">No games available.</p>
   </div>
 </div>
