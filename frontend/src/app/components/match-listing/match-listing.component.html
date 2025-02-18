@@ -1,0 +1,44 @@
+<div class="content">
+  <div class="container">
+    <h1>Handball Games</h1>
+    <button type="button" class="btn btn-outline-dark me-3" *ngFor="let serie of serie_ids; let i = index"
+      [class.active]="activeButton === i" (click)="changeSerie(serie.id)">
+      {{ serie.label }}
+    </button>
+    <hr>
+
+    <div class="mb-3">
+      <button (click)="changeWeek(-1)" class="btn btn-outline-secondary me-3 ">Previous Week</button>
+      <span>Week from {{ currentWeekStart.toLocaleString().split(',')[0]}}</span>
+      <button (click)="changeWeek(1)" class="btn btn-outline-secondary ms-3">Next Week</button>
+    </div>
+    <table class="table table-hover" *ngIf="filteredGames.length > 0; else noMatches">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th style="text-align: right;">Home</th>
+          <th></th>
+          <th>Score</th>
+          <th></th>
+          <th>Away</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let game of filteredGames" [routerLink]="['/match', game.code]">
+          <td> {{ game.date | date : 'EEEE dd/MM/yyyy' }} </td>
+          <td> {{ game.time.split(':')[0]}}:{{game.time.split(':')[1]}}</td>
+          <td style="text-align: right;"> {{ game.home_team_name }} </td>
+          <td><img src={{imgUrl}}{{game.home_club_logo_img_url}} alt=""></td>
+          <td> {{ game.home_score }} - {{ game.away_score }} </td>
+          <td><img src={{imgUrl}}{{game.away_club_logo_img_url}} alt=""></td>
+          <td> {{ game.away_team_name }} </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noMatches>
+      <div *ngIf="loading" class="loading">Loading...</div>
+      <div *ngIf="!loading">No matches this week</div>
+    </ng-template>
+  </div>
+</div>

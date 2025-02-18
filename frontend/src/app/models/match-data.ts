@@ -3,6 +3,7 @@ import { MatchFeatures } from "./match-features";
 import { RefereeReport } from "./referee-report";
 import { Team } from "./team";
 import { Event } from "./event";
+import { Location } from "./location";  
 
 export interface MatchData {
     gameCode: string;

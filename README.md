@@ -7,7 +7,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 First intall all npm package by running
 
 ```bash
-npm install:all
+npm run install:all
 ```
 
 To start the front and backend, run:

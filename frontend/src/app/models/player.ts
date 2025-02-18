@@ -1,0 +1,35 @@
+export interface Player {
+    id: string;
+    externalId: string;
+    firstname: string;
+    lastname: string;
+    nr: string;
+    teamOfficialMark: string | null;
+    passNr: string;
+    portraitImage: string | null;
+    birthdate: string;
+    gender: string;
+    country: string | null;
+    clubName: string | null;
+    type: string;
+    passChecked: boolean;
+    password: string | null;
+    teamHome: boolean;
+    captain: boolean;
+    distanceDriver: number | null;
+    distanceCoDriver: number | null;
+    fares: number | null;
+    faresPublicTransport: number | null;
+    expenses: number | null;
+    otherExpenses: number | null;
+    email: string | null;
+    releasePasswordEntered: string | null;
+    lineupPasswordEntered: string | null;
+    licenceNr: string | null;
+    hasActivePenalty: boolean;
+    manuallyInserted: boolean;
+    anonym: boolean;
+    arrival: string | null;
+    departure: string | null;
+    poolRightInfo: string | null;
+}
