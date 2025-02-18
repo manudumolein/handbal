@@ -10,10 +10,11 @@ import { MatchData } from '../models/match-data';
 export class MatchService {
   private startOfWeek: Date | null = null;
   private gamesCache: { [key: number]: any[] } = {};
-  private matchDetailsCache: { [key: string]: any } = {};
+  private matchDetailsCache: { [key: string]: MatchData } = {};
   public serie_ids = [
     { label: "Heren1", id: 487 },
-    { label: "Heren2", id: 478 }
+    { label: "Heren2", id: 478 },
+    { label: "Heren1 Playdown", id: 377 }
   ];
 
   constructor(private http: HttpClient) { }
@@ -25,6 +26,7 @@ export class MatchService {
 
     return this.http.get<any>(`http://localhost:3000/api/games?serie_id=${serie_id}`)
       .pipe(
+      
         map(response => response.elements),
         tap(games => this.gamesCache[serie_id] = games)
       );
@@ -35,7 +37,7 @@ export class MatchService {
       return of(this.matchDetailsCache[code]);
     }
 
-    return this.http.get<any>(`http://localhost:3000/api/game/${code}`)
+    return this.http.get<MatchData>(`http://localhost:3000/api/game/${code}`)
       .pipe(
         tap(details => this.matchDetailsCache[code] = details)
       );

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatchService } from '../../services/match.service';
-
+import { Game } from '../../models/game';
 @Component({
   selector: 'app-match-listing',
   imports: [RouterLink, CommonModule],
@@ -11,11 +11,11 @@ import { MatchService } from '../../services/match.service';
 })
 export class MatchListingComponent implements OnInit {
   loading = false;
-  filteredGames: any[] = []; // Filtered events for the current week
+  filteredGames: Game[] = []; // Filtered events for the current week
   currentWeekStart: Date = new Date(); // Start of the current week
   serie_ids: { label: string; id: number; }[] = [];
-  activeButton = 0; // Default active button index  
-
+  activeButton = 0; // Default active button index 
+  imgUrl = "https://admin.handballbelgium.be/lms_league_ws/public/img/"
   constructor(private matchService: MatchService) { }
 
   ngOnInit(): void {
@@ -34,6 +34,7 @@ export class MatchListingComponent implements OnInit {
     this.matchService.filterGamesByWeek(serie_id, this.currentWeekStart).subscribe(games => {
       this.filteredGames = games;
     });
+    console.log(this.filteredGames);
   }
 
   // Change the week and update the filtered events

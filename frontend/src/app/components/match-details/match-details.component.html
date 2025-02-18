@@ -11,7 +11,7 @@
           <div>
             <table class="table">
               <tbody>
-                <tr style="height: 5rem;" >
+                <tr style="height: 5rem;">
                   <th id="hometeam" class="h3">{{matchDetails.teamHome.name}}</th>
                   <th id="score" class="h3">{{matchDetails.pointsHome}}-{{matchDetails.pointsGuest}}
                     ({{matchDetails.pointsHomeHalftime}}-{{matchDetails.pointsGuestHalftime}})</th>
@@ -25,7 +25,14 @@
                   <th>Division:</th>
                   <td id="league" colspan="100%">{{matchDetails.groupName}}</td>
                 </tr>
-                <tr><td style="height: 2rem;" colspan="100%"> </td></tr>
+                <tr>
+                  <th>Location: </th>
+                  <td style="height: 2rem;" colspan="100%">{{matchDetails.location.name}}, {{matchDetails.location.street}} {{matchDetails.location.city}} </td>
+
+                </tr>
+                <tr>
+                  <td style="height: 2rem;" colspan="100%"> </td>
+                </tr>
                 <tr>
                   <th>Referee A:</th>
                   <td id="refereeA">{{getPlayerName(matchDetails.federationOfficials.refereeA)}}</td>

@@ -6,17 +6,28 @@
   <div *ngIf="loading">Loading...</div>
   <div class="mt-3" *ngIf="!loading && nextMatch">
     <h2>Next Match</h2>
-    <p>{{ nextMatch.date | date: 'fullDate' }} - {{ nextMatch.time }}</p>
-    <p>{{ nextMatch.home_club_name }} vs {{ nextMatch.away_club_name }}</p>
-    <table>
-      <tbody>
-        <tr style="height: 5rem;">
-          <th id="hometeam" class="h3">{{matchDetails.teamHome.name}}</th>
-          <th id="score" class="h3">{{matchDetails.pointsHome}}-{{matchDetails.pointsGuest}}
+
+    <table class="table">
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Teams</th>
+      </tr>
+      <tr>
+        <td>{{ nextMatch.date | date: 'EEEE dd/MM/yyyy' }}</td>
+        <td>{{ nextMatch.time }}</td>
+        <td>{{ nextMatch.home_club_name }} vs {{ nextMatch.away_club_name }}</td>
+      </tr>
+    </table>
+    <table class="table">
+      
+        <tr>
+          <th class="h3">{{matchDetails.teamHome.name}}</th>
+          <th class="h3">{{matchDetails.pointsHome}}-{{matchDetails.pointsGuest}}
             ({{matchDetails.pointsHomeHalftime}}-{{matchDetails.pointsGuestHalftime}})</th>
           <th id="awayteam" class="h3" colspan="100%">{{matchDetails.teamGuest.name}}</th>
         </tr>
-      </tbody>
+ 
     </table>
 
   </div>
